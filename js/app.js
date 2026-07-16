@@ -54,6 +54,15 @@
     return s.replace(/\{(\w+)\}/g, function (_, k) { return map[k] != null ? map[k] : ""; });
   }
 
+  function restoreCastsFromUrl() {
+    var match = location.hash.match(/^#cast=([6789]{6})$/);
+    if (match) casts = match[1].split("").map(Number);
+  }
+
+  function readingUrl() {
+    return location.href.split("#")[0] + "#cast=" + casts.join("");
+  }
+
   // ---------- randomness ----------
   function coinFlip() { // true = yang(3) reverse side, false = yin(2)
     var a = new Uint8Array(1);
@@ -70,9 +79,21 @@
     });
     var sel = $("langSelect");
     if (sel && sel.value !== lang) sel.value = lang;
+    renderPositionGuide();
     renderBuilder();
     updateStatus();
     if (!reading.hidden) renderReading();
+  }
+
+  function renderPositionGuide() {
+    var container = $("positionCards");
+    if (!container) return;
+    container.innerHTML = t("positionNames").map(function (name, i) {
+      return '<article class="position-card">' +
+        '<span class="position-no">' + (i + 1) + '</span>' +
+        '<div><h3>' + esc(name) + '</h3><p>' + esc(t("positionMeanings")[i]) + '</p></div>' +
+      '</article>';
+    }).join("");
   }
 
   function updateStatus() {
@@ -195,6 +216,9 @@
     reading.hidden = true;
     readingBody.innerHTML = "";
     builderNote.textContent = "";
+    if (history.replaceState) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
     resetCoins();
     renderBuilder();
     updateStatus();
@@ -229,6 +253,24 @@
         "<h2>" + esc(h.nm[lang]) + "</h2>" +
         '<div class="rd-zi">' + esc(h.nm.zh) + "（" + esc(h.zi) + "）</div>" +
       "</div></div>";
+  }
+
+  function shareHtml(h) {
+    var url = readingUrl();
+    var text = fmt(t("shareText"), { n: h.n, name: h.nm[lang] });
+    var lineUrl = "https://social-plugins.line.me/lineit/share?url=" +
+      encodeURIComponent(url) + "&text=" + encodeURIComponent(text);
+    return '<div class="rd-share">' +
+      '<h3>' + esc(t("shareTitle")) + '</h3>' +
+      '<p>' + esc(t("shareIntro")) + '</p>' +
+      '<div class="rd-share-actions">' +
+        '<button class="share-btn share-native" type="button" data-share="native">' +
+          '<span aria-hidden="true">↗</span>' + esc(t("shareBtn")) + '</button>' +
+        '<a class="share-btn share-line" href="' + escAttr(lineUrl) +
+          '" target="_blank" rel="noopener noreferrer">LINE</a>' +
+        '<button class="share-btn" type="button" data-share="copy">' +
+          '<span aria-hidden="true">⧉</span><span class="copy-label">' + esc(t("copyLink")) + '</span></button>' +
+      '</div></div>';
   }
 
   function renderReading() {
@@ -290,9 +332,56 @@
         '<p class="rd-plain">' + esc(th.gx[lang]) + "</p></div>";
     }
 
+    html += shareHtml(h);
     html += '<div class="rd-seal"><span>易</span></div>';
     readingBody.innerHTML = html;
+    if (history.replaceState) history.replaceState(null, "", readingUrl());
   }
+
+  async function copyReadingLink(button) {
+    var url = readingUrl();
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch (e) {
+      var input = document.createElement("textarea");
+      input.value = url;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+    }
+    var label = button.querySelector(".copy-label");
+    if (label) {
+      var original = label.textContent;
+      label.textContent = t("copied");
+      setTimeout(function () { label.textContent = original; }, 1800);
+    }
+  }
+
+  readingBody.addEventListener("click", async function (event) {
+    var button = event.target.closest("[data-share]");
+    if (!button) return;
+    var bin = casts.map(function (v) { return (v === 7 || v === 9) ? "1" : "0"; }).join("");
+    var h = byBin[bin];
+    if (!h) return;
+    if (button.getAttribute("data-share") === "copy") {
+      await copyReadingLink(button);
+      return;
+    }
+    var shareData = {
+      title: t("title") + " · " + h.nm[lang],
+      text: fmt(t("shareText"), { n: h.n, name: h.nm[lang] }),
+      url: readingUrl()
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch (e) {}
+    } else {
+      await copyReadingLink(button);
+    }
+  });
 
   // ---------- events ----------
   castBtn.addEventListener("click", function () { autoMode = false; castOnce(); });
@@ -305,5 +394,14 @@
   });
 
   // ---------- init ----------
+  restoreCastsFromUrl();
   applyStatic();
+  if (casts.length === 6) {
+    castBtn.hidden = true;
+    autoBtn.hidden = true;
+    resetBtn.hidden = false;
+    shell.classList.add("empty");
+    renderReading();
+    reading.hidden = false;
+  }
 })();
