@@ -78,14 +78,14 @@ def parse_chinese():
 def main():
     cn = parse_chinese()
     en = json.loads(EN_SOURCE.read_text(encoding="utf-8"))
-    localized_lines = {}
-    for language in ("en", "ja", "ko", "es", "fr", "de"):
+    localized = {}
+    for language in ("zh", "en", "ja", "ko", "es", "fr", "de"):
         path = TRANSLATIONS / f"{language}.json"
         if path.exists():
             translated = json.loads(path.read_text(encoding="utf-8"))
-            if len(translated) != 64 or any(len(lines) != 6 for lines in translated):
+            if len(translated) != 64 or any(len(item["lines"]) != 6 for item in translated):
                 raise RuntimeError(f"{path}: expected 64 hexagrams × 6 lines")
-            localized_lines[language] = translated
+            localized[language] = translated
 
     data = []
     for n in range(1, 65):
@@ -94,14 +94,16 @@ def main():
         gx = {"en": eh["judgment"]["text"].replace("\n", " ")}
         for lang in ("zh", "ja", "ko", "es", "fr", "de"):
             gx[lang] = TEMPLATES[lang][0].format(name=names[lang])
+        for lang, translated in localized.items():
+            gx[lang] = translated[n - 1]["gua"]
         line_items = []
         for pos, raw in enumerate(cn[n]["lines"], 1):
             lx = {"en": eh["lines"][str(pos)]["text"].replace("\n", " ")}
             lx["zh"] = chinese_line_explanation(raw, cn[n]["images"][pos - 1])
             for lang in ("ja", "ko", "es", "fr", "de"):
                 lx[lang] = TEMPLATES[lang][1].format(pos=pos)
-            for lang, translated in localized_lines.items():
-                lx[lang] = translated[n - 1][pos - 1]
+            for lang, translated in localized.items():
+                lx[lang] = translated[n - 1]["lines"][pos - 1]
             line_items.append([raw, lx])
         data.append({
             "n": n,

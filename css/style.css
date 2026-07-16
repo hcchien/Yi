@@ -499,7 +499,19 @@ h1, h2, h3 { font-family: var(--serif-cjk); font-weight: 700; }
 }
 .rd-lines li:last-child { border-bottom: none; }
 .rd-line-t { font-weight: 600; font-size: 1.02rem; }
-.rd-line-x { color: var(--ink-soft); font-size: .92rem; margin-top: .25rem; }
+.rd-line-x {
+  display: grid;
+  gap: .28rem;
+  color: var(--ink-soft);
+  font-size: .92rem;
+  margin-top: .55rem;
+}
+.rd-line-x p { margin: 0; }
+.rd-line-x strong {
+  color: var(--ink-on-paper);
+  font-weight: 700;
+  margin-right: .25rem;
+}
 .rd-lines li.chg {
   background: linear-gradient(90deg, rgba(200,64,47,.07), transparent 70%);
   border-left: 3px solid var(--vermilion);

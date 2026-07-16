@@ -246,6 +246,14 @@
     return esc(s).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
+  function adviceHtml(text) {
+    return String(text).split(/\n+/).map(function (line) {
+      var match = line.match(/^([^：:]+[：:])\s*(.*)$/);
+      if (!match) return "<p>" + esc(line) + "</p>";
+      return '<p><strong>' + esc(match[1]) + '</strong>' + esc(match[2]) + '</p>';
+    }).join("");
+  }
+
   function symbolHtml(bin, changing) {
     var html = '<div class="rd-sym" aria-hidden="true">';
     for (var i = 0; i < 6; i++) {
@@ -319,7 +327,7 @@
         : "";
       html += "<li" + (chg ? ' class="chg"' : "") + ">" +
         '<div class="rd-line-t">' + esc(l[0]) + changeHelp + "</div>" +
-        '<div class="rd-line-x">' + esc(l[1][lang]) + "</div></li>";
+        '<div class="rd-line-x">' + adviceHtml(l[1][lang]) + "</div></li>";
     });
     html += "</ul></div>";
 
