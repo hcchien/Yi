@@ -31,6 +31,8 @@
       coins = [ $("coin0"), $("coin1"), $("coin2") ];
 
   function detectLang() {
+    var requested = new URLSearchParams(location.search).get("lang");
+    if (requested && LANGS.indexOf(requested) >= 0) return requested;
     var saved = null;
     try { saved = localStorage.getItem("yi-lang"); } catch (e) {}
     if (saved && LANGS.indexOf(saved) >= 0) return saved;
@@ -64,7 +66,7 @@
     var h = byBin[bin];
     if (!h) return location.href.split("#")[0];
     var base = location.href.split("#")[0].split("?")[0];
-    var url = new URL("readings/" + h.n + "/", base);
+    var url = new URL("readings/" + lang + "/" + h.n + "/", base);
     url.searchParams.set("cast", casts.join(""));
     return url.href;
   }
