@@ -60,7 +60,17 @@
   }
 
   function readingUrl() {
-    return location.href.split("#")[0] + "#cast=" + casts.join("");
+    var bin = casts.map(function (v) { return (v === 7 || v === 9) ? "1" : "0"; }).join("");
+    var h = byBin[bin];
+    if (!h) return location.href.split("#")[0];
+    var base = location.href.split("#")[0].split("?")[0];
+    var url = new URL("readings/" + h.n + "/", base);
+    url.searchParams.set("cast", casts.join(""));
+    return url.href;
+  }
+
+  function resultUrl() {
+    return location.href.split("#")[0].split("?")[0] + "#cast=" + casts.join("");
   }
 
   // ---------- randomness ----------
@@ -335,7 +345,7 @@
     html += shareHtml(h);
     html += '<div class="rd-seal"><span>易</span></div>';
     readingBody.innerHTML = html;
-    if (history.replaceState) history.replaceState(null, "", readingUrl());
+    if (history.replaceState) history.replaceState(null, "", resultUrl());
   }
 
   async function copyReadingLink(button) {
