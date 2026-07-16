@@ -1,22 +1,22 @@
 /* ===================================================================
-   易 · 擲爻問卦 — ink, paper, gold & vermilion
+   易 · 擲爻問卦 — light jade, warm paper & coral
    =================================================================== */
 :root {
-  --ink-0: #14110e;
-  --ink-1: #1d1814;
-  --ink-2: #2a231d;
-  --bone: #efe6d3;
-  --bone-dim: #cbbfa6;
-  --paper: #f3ecdc;
-  --paper-edge: #e2d6bc;
-  --ink-on-paper: #2b241e;
-  --ink-soft: #5c5246;
-  --vermilion: #c8402f;
-  --vermilion-deep: #9e2f22;
-  --gold: #c8a24b;
-  --gold-dim: #8a7340;
-  --serif-cjk: "Noto Serif TC", "Noto Serif KR", serif;
-  --serif-latin: "Cormorant Garamond", "Noto Serif TC", serif;
+  --ink-0: #f7f6f1;
+  --ink-1: #ffffff;
+  --ink-2: #eef4f0;
+  --bone: #24342e;
+  --bone-dim: #68766f;
+  --paper: #ffffff;
+  --paper-edge: #e4e9e5;
+  --ink-on-paper: #20302a;
+  --ink-soft: #66736d;
+  --vermilion: #df684f;
+  --vermilion-deep: #bb4c39;
+  --gold: #43836c;
+  --gold-dim: #78a18f;
+  --serif-cjk: "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif;
+  --serif-latin: "Inter", "Noto Sans TC", sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,8 +26,8 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--serif-latin);
   background:
-    radial-gradient(1200px 600px at 70% -10%, rgba(200,162,75,.08), transparent 60%),
-    radial-gradient(900px 500px at 10% 110%, rgba(200,64,47,.06), transparent 60%),
+    radial-gradient(900px 540px at 85% -8%, rgba(111,173,148,.17), transparent 64%),
+    radial-gradient(760px 520px at 0% 38%, rgba(239,164,138,.12), transparent 65%),
     var(--ink-0);
   color: var(--bone);
   min-height: 100vh;
@@ -40,11 +40,11 @@ body::before {
   position: fixed; inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: .35;
+  opacity: .08;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-h1, h2, h3 { font-family: var(--serif-cjk); font-weight: 600; }
+h1, h2, h3 { font-family: var(--serif-cjk); font-weight: 700; }
 
 /* ============ header ============ */
 .site-header {
@@ -680,6 +680,163 @@ h1, h2, h3 { font-family: var(--serif-cjk); font-weight: 600; }
   font-family: var(--serif-cjk);
 }
 .footer-credit { margin-top: .4rem; color: var(--gold-dim); }
+
+/* ============ light theme refinements ============ */
+.site-header {
+  background: rgba(255,255,255,.78);
+  border-bottom-color: rgba(67,131,108,.14);
+  box-shadow: 0 1px 0 rgba(255,255,255,.8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.seal {
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(187,76,57,.18);
+}
+.brand-text h1 { color: var(--ink-on-paper); }
+.tagline { color: var(--gold); font-weight: 600; }
+.lang-switch select {
+  background:
+    linear-gradient(45deg, transparent 49%, var(--gold) 50%, transparent 60%) no-repeat right 1.05rem center / 8px 8px,
+    linear-gradient(-45deg, transparent 49%, var(--gold) 50%, transparent 60%) no-repeat right .75rem center / 8px 8px,
+    #fff;
+  color: var(--ink-on-paper);
+  border-color: #d5e1da;
+  border-radius: 10px;
+}
+.lang-switch select option { background: #fff; color: var(--ink-on-paper); }
+
+.about-inner {
+  max-width: 960px;
+  border: 1px solid #e2e9e4;
+  border-radius: 24px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 18px 50px rgba(49,78,66,.07);
+}
+.taiji {
+  border-color: #75a995;
+  background:
+    radial-gradient(circle at 50% 27%, #43836c 9%, transparent 9.5%),
+    radial-gradient(circle at 50% 77%, #fff 9%, transparent 9.5%),
+    radial-gradient(circle at 50% 25%, #fff 24%, transparent 24.5%),
+    radial-gradient(circle at 50% 75%, #43836c 24%, transparent 24.5%),
+    linear-gradient(90deg, #fff 50%, #43836c 50%);
+}
+.about-text h2,
+.position-guide-head h2,
+.stage-side h2 { color: var(--ink-on-paper); }
+
+.position-guide-inner {
+  border: 0;
+  border-radius: 24px;
+  background: #eef5f1;
+}
+.position-card {
+  border-color: rgba(67,131,108,.13);
+  border-radius: 14px;
+  background: rgba(255,255,255,.7);
+}
+.position-no {
+  border: 0;
+  background: #dcece4;
+  color: #2d7058;
+  font-weight: 700;
+}
+
+.stage-inner {
+  padding: clamp(1rem, 2.8vw, 2rem);
+  border: 1px solid #e1e8e3;
+  border-radius: 28px;
+  background: rgba(255,255,255,.76);
+  box-shadow: 0 24px 70px rgba(45,75,62,.08);
+}
+.stage-side {
+  padding: .35rem;
+}
+.stage-side h2 {
+  border-bottom-color: #dfe8e2;
+}
+.cast-status { color: #2d7058; font-weight: 700; }
+.shell {
+  filter:
+    drop-shadow(0 18px 20px rgba(80,58,31,.18))
+    drop-shadow(0 0 12px rgba(67,131,108,.08));
+}
+.face::before,
+.shell-coins span::after { background: #362615; }
+.cast-result { color: var(--ink-on-paper); }
+.btn {
+  border-radius: 999px;
+  font-weight: 700;
+}
+.btn-primary {
+  box-shadow: 0 10px 24px rgba(223,104,79,.2);
+}
+.btn-ghost {
+  background: #fff;
+  border-color: #cbdcd3;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: #edf6f1;
+}
+.b-idx,
+.builder-note { color: var(--ink-soft); }
+.b-bar .seg {
+  background: #3d7862;
+  box-shadow: none;
+}
+.b-line.empty .b-bar .seg { background: #dbe5df; }
+
+.reading {
+  background: linear-gradient(180deg, transparent, rgba(220,236,228,.3));
+}
+.scroll-paper {
+  border: 1px solid #dfe7e2;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 26px 80px rgba(45,75,62,.11);
+  overflow: visible;
+}
+.scroll-rod { display: none; }
+.reading-body {
+  font-family: var(--serif-cjk);
+}
+.rd-label {
+  color: #2c6752;
+  background: #e4f1ea;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.rd-lines li {
+  border-bottom-color: #e5ebe7;
+}
+.rd-lines li.chg {
+  border-left-color: var(--vermilion);
+  border-radius: 0 12px 12px 0;
+}
+.chg-help::after,
+.chg-help::before {
+  background: #253b32;
+  color: #fff;
+}
+.rd-transform {
+  border-color: #f0c8bf;
+  border-radius: 16px;
+  background: #fff7f4;
+}
+.rd-share {
+  border-color: #e2e9e4;
+  border-radius: 16px;
+  background: #f7faf8;
+}
+.share-btn {
+  border-radius: 999px;
+  background: #fff;
+}
+.site-footer {
+  border-top-color: #dfe8e2;
+  background: rgba(255,255,255,.48);
+}
 
 /* ============ responsive ============ */
 @media (max-width: 900px) {

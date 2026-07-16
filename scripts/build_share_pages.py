@@ -36,29 +36,28 @@ def draw_hexagram(draw, binary):
     for index, bit in enumerate(reversed(binary)):
         line_y = y + index * (height + gap)
         if bit == "1":
-            draw.rounded_rectangle((x, line_y, x + width, line_y + height), 5, fill="#d2ad58")
+            draw.rounded_rectangle((x, line_y, x + width, line_y + height), 5, fill="#43836c")
         else:
             segment = 103
-            draw.rounded_rectangle((x, line_y, x + segment, line_y + height), 5, fill="#d2ad58")
-            draw.rounded_rectangle((x + width - segment, line_y, x + width, line_y + height), 5, fill="#d2ad58")
+            draw.rounded_rectangle((x, line_y, x + segment, line_y + height), 5, fill="#43836c")
+            draw.rounded_rectangle((x + width - segment, line_y, x + width, line_y + height), 5, fill="#43836c")
 
 
 def build_card(hexagram, target):
-    image = Image.new("RGB", (1200, 630), "#17130f")
+    image = Image.new("RGB", (1200, 630), "#f5f4ee")
     draw = ImageDraw.Draw(image)
-    draw.rectangle((38, 38, 1162, 592), outline="#6f5b32", width=2)
-    draw.rectangle((55, 55, 1145, 575), outline="#342a1b", width=1)
-    draw.ellipse((75, 73, 410, 408), fill="#1d1813", outline="#4b3d25", width=2)
+    draw.rounded_rectangle((38, 38, 1162, 592), 24, fill="#ffffff", outline="#dce5df", width=2)
+    draw.ellipse((75, 73, 410, 408), fill="#edf5f0", outline="#b8d2c6", width=2)
     draw_hexagram(draw, hexagram["b"])
 
-    draw.text((470, 110), f"第 {hexagram['n']} 卦", font=font(FONT_CJK, 34), fill="#c74432")
-    draw.text((470, 165), hexagram["nm"]["zh"], font=font(FONT_CJK, 112), fill="#f1e6cf")
-    draw.text((475, 305), hexagram["nm"]["en"], font=font(FONT_LATIN, 42), fill="#d2ad58")
-    draw.line((470, 378, 1080, 378), fill="#4e4028", width=2)
-    draw.text((470, 414), "擲爻問卦 · I Ching Oracle", font=font(FONT_CJK, 29), fill="#b9aa8e")
-    draw.text((470, 465), "六爻成卦 · 觀時知變", font=font(FONT_CJK, 24), fill="#776a57")
+    draw.text((470, 110), f"第 {hexagram['n']} 卦", font=font(FONT_CJK, 34), fill="#df684f")
+    draw.text((470, 165), hexagram["nm"]["zh"], font=font(FONT_CJK, 112), fill="#20302a")
+    draw.text((475, 305), hexagram["nm"]["en"], font=font(FONT_LATIN, 42), fill="#43836c")
+    draw.line((470, 378, 1080, 378), fill="#dce5df", width=2)
+    draw.text((470, 414), "擲爻問卦 · I Ching Oracle", font=font(FONT_CJK, 29), fill="#53665e")
+    draw.text((470, 465), "六爻成卦 · 觀時知變", font=font(FONT_CJK, 24), fill="#89968f")
 
-    draw.rounded_rectangle((1042, 465, 1115, 538), 6, fill="#b7392a")
+    draw.rounded_rectangle((1042, 465, 1115, 538), 12, fill="#df684f")
     draw_centered(draw, (1078, 474), "易", font(FONT_CJK, 43), "#f3ecdc")
     image.save(target, optimize=True, quality=92)
 
@@ -92,8 +91,8 @@ def build_page(hexagram, target):
 <meta name="twitter:description" content="{description}">
 <meta name="twitter:image" content="{image}">
 <style>
-body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#17130f;color:#eee3ce;font-family:serif;text-align:center}}
-main{{max-width:34rem;padding:2rem}}h1{{color:#d2ad58}}a{{color:#eee3ce}}
+body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#f7f6f1;color:#20302a;font-family:Arial,sans-serif;text-align:center}}
+main{{max-width:34rem;padding:2rem}}h1{{color:#43836c}}a{{color:#bb4c39}}
 </style>
 <script>
 (function(){{
